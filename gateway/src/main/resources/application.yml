@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    include: route,testaRoute,testbRoute
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: '*'
+            allowed-headers: '*'
+            allowed-methods: '*'
+    nacos:
+      server-addr: localhost:8848
+server:
+  port: 81
