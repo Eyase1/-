@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ttt.dishes.mapper.DishMapper">
+    <insert id="saveDish">
+        insert into t_dish (name,category_id,ingredients,allergies,calories,protein,fat,carbohydrate,fiber,vitamins,minerals,meal_type,image_url)
+        values (#{name},#{categoryId},#{ingredients},#{allergies},#{calories},#{protein},#{fat},#{carbohydrate},#{fiber},#{vitamins},#{minerals},#{mealType},#{imageUrl})
+    </insert>
+
+    <select id="getAllDishes" resultType="com.ttt.entity.dishes.Dish">
+        SELECT * FROM t_dish
+    </select>
+</mapper>
