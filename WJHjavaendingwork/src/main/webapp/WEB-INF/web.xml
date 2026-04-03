@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <display-name>ShoppingSystem</display-name>
+            <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>com.shopping.filter.EncodingFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+    <filter>
+    <filter-name>LoggingFilter</filter-name>
+    <filter-class>com.shopping.filter.LoggingFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>LoggingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+    
+    <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.shopping.filter.AuthenticationFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/profile.jsp</url-pattern>
+    <url-pattern>/cart.jsp</url-pattern>
+    <url-pattern>/orders.jsp</url-pattern>
+    <url-pattern>/changePassword.jsp</url-pattern>
+    <url-pattern>/addProduct.jsp</url-pattern>
+    <url-pattern>/productManagement.jsp</url-pattern>
+    <url-pattern>/orderManagement.jsp</url-pattern>
+    <url-pattern>/editProduct.jsp</url-pattern>
+</filter-mapping>
+    <filter>
+    <filter-name>AuthorizationFilter</filter-name>
+    <filter-class>com.shopping.filter.AuthorizationFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>AuthorizationFilter</filter-name>
+    <url-pattern>/admin.jsp</url-pattern>
+    <url-pattern>/adminInfo.jsp</url-pattern>
+    <url-pattern>/productManagement.jsp</url-pattern>
+    <url-pattern>/orderManagement.jsp</url-pattern>
+    <url-pattern>/addProduct.jsp</url-pattern>
+    <url-pattern>/editProduct.jsp</url-pattern>
+    <url-pattern>/deleteProduct</url-pattern>
+</filter-mapping>
+    
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.shopping.controller.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+ 
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>com.shopping.controller.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>com.shopping.controller.AddToCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/addToCart</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>com.shopping.controller.SearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ProcessPaymentServlet</servlet-name>
+        <servlet-class>com.shopping.controller.ProcessPaymentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProcessPaymentServlet</servlet-name>
+        <url-pattern>/processPayment</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <servlet-class>com.shopping.controller.RemoveFromCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <url-pattern>/removeFromCart</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SaveCommentServlet</servlet-name>
+        <servlet-class>com.shopping.controller.SaveCommentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SaveCommentServlet</servlet-name>
+        <url-pattern>/saveComment</url-pattern>
+    </servlet-mapping>
+    <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.shopping.controller.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/adminInfo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddProductServlet</servlet-name>
+        <servlet-class>com.shopping.controller.AddProductServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddProductServlet</servlet-name>
+        <url-pattern>/addProduct</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditProductServlet</servlet-name>
+        <servlet-class>com.shopping.controller.EditProductServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditProductServlet</servlet-name>
+        <url-pattern>/editProduct</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteProductServlet</servlet-name>
+        <servlet-class>com.shopping.controller.DeleteProductServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteProductServlet</servlet-name>
+        <url-pattern>/deleteProduct</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>com.shopping.controller.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
+    </servlet-mapping>
+</web-app>
