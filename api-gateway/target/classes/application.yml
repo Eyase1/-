@@ -1,0 +1,144 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+        # 用户服务API路由
+        - id: user-api
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - RewritePath=/api/user/(?<remaining>.*), /api/user/$\{remaining}
+
+        # Coze代理服务路由
+        - id: coze-api
+          uri: lb://coze-proxy-service
+          predicates:
+            - Path=/api/coze/**
+          filters:
+            - RewritePath=/api/coze/(?<remaining>.*), /api/coze/$\{remaining}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                key-resolver: "#{@userKeyResolver}"
+
+        # 日历服务路由 - 修正版本
+        - id: calendar-service
+          uri: lb://calendar-service
+          predicates:
+           - Path=/api/calendar/**
+          filters:
+            - RewritePath=/api/calendar/(?<remaining>.*), /calendar/$\{remaining}
+
+        # 知识库服务路由
+        - id: knowledge-service
+          uri: lb://knowledge-service
+          predicates:
+            - Path=/api/knowledge/**
+          filters:
+            - RewritePath=/api/knowledge/(?<remaining>.*), /api/knowledge/$\{remaining}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 15
+                redis-rate-limiter.burstCapacity: 30
+                key-resolver: "#{@userKeyResolver}"
+
+        # 待办服务路由 - 修正版本
+        - id: todo-service
+          uri: lb://todo-service
+          predicates:
+            - Path=/api/todo/**
+          filters:
+            - RewritePath=/api/todo/(?<remaining>.*), /todo/$\{remaining}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 20
+                redis-rate-limiter.burstCapacity: 40
+                key-resolver: "#{@userKeyResolver}"
+
+        # 分析服务路由 - 新增
+        - id: analytics-service
+          uri: lb://analytics-service
+          predicates:
+            - Path=/api/analytics/**
+          filters:
+            - RewritePath=/api/analytics/(?<remaining>.*), /$\{remaining}
+
+        # 仪表板数据路由
+        - id: dashboard-async
+          uri: lb://user-service
+          predicates:
+            - Path=/api/dashboard/**
+          filters:
+            - RewritePath=/api/dashboard/(?<remaining>.*), /$\{remaining}
+
+  # RabbitMQ配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    template:
+      exchange: dashboard.exchange
+    listener:
+      simple:
+        prefetch: 10
+        concurrency: 3
+        max-concurrency: 5
+        acknowledge-mode: auto
+
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    org.springframework.cloud.loadbalancer: INFO
+    reactor.netty: INFO
+    com.graduatedesign: DEBUG
+    com.alibaba.csp.sentinel: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,gateway,metrics
+  endpoint:
+    health:
+      enabled: true
+    gateway:
+      enabled: true
+
+# 自定义配置
+app:
+  rabbitmq:
+    queue:
+      dashboard-requests: dashboard.requests
+      dashboard-results: dashboard.results
+    timeout: 30000
