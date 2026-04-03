@@ -1,0 +1,50 @@
+### 1. 服务状态检查
+GET http://localhost:8082/api/coze/status
+
+### 2. 文档管理功能
+POST http://localhost:8082/api/coze/chat
+Content-Type: application/json
+
+{
+  "message": "帮我查看文档列表",
+  "userId": "user_001"
+}
+
+### 3. 日程安排功能
+POST http://localhost:8082/api/coze/chat
+Content-Type: application/json
+
+{
+  "message": "明天下午安排项目评审会议",
+  "userId": "user_002"
+}
+
+### 4. 会议助手功能
+POST http://localhost:8082/api/coze/chat
+Content-Type: application/json
+
+{
+  "message": "需要安排一个团队会议讨论需求分析",
+  "userId": "user_003"
+}
+
+### 5. 文档问答功能
+POST http://localhost:8082/api/coze/chat
+Content-Type: application/json
+
+{
+  "message": "帮我生成项目计划书的摘要",
+  "userId": "user_004"
+}
+
+### 6. 获取文档列表API
+GET http://localhost:8082/api/coze/documents?userId=user_001
+
+### 7. 通用办公助手
+POST http://localhost:8082/api/coze/chat
+Content-Type: application/json
+
+{
+  "message": "作为办公助手，你能帮我做什么？",
+  "userId": "user_005"
+}

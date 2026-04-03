@@ -1,0 +1,96 @@
+spring:
+  application:
+    name: user-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        enabled: true
+        register-enabled: true
+        namespace:
+        group: DEFAULT_GROUP
+        weight: 1
+        ephemeral: true
+    # Sentinel 简化配置
+    sentinel:
+      enabled: true
+      eager: true
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+      web-context-unify: false
+      filter:
+        enabled: true
+        url-patterns: /*
+
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/smart_office?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 5
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+# 服务配置
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  tomcat:
+    connection-timeout: 30000
+    keep-alive-timeout: 30000
+
+# 日志配置
+logging:
+  level:
+    com.graduatedesign.userservice: DEBUG
+    org.springframework.cloud: DEBUG
+    com.alibaba.nacos: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.alibaba.csp.sentinel: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+  file:
+    name: logs/user-service.log
+
+# 健康检查配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      cors:
+        allowed-origins: "*"
+        allowed-methods: GET,POST
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+
+# 自定义配置
+app:
+  jwt:
+    secret: "smart-office-secret-key-2024-graduation-design"
+    expiration: 86400000  # 24小时
+  cors:
+    allowed-origins: "http://localhost:5173,http://localhost:8080"
+    allowed-methods: "*"
+    allowed-headers: "*"
